@@ -23,7 +23,7 @@ import { GameInfoComponent } from '../game-info/game-info.component';
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  currentCard: string | undefined;
+  currentCard: string = '';
   game: Game = new Game();
 
   constructor(public dialog: MatDialog) {}
@@ -38,7 +38,7 @@ export class GameComponent implements OnInit {
 
   takeCard() {
     if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
+      this.currentCard = this.game.stack.pop() || '';
       this.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer =

@@ -63,7 +63,7 @@ export class GameInfoComponent implements OnChanges {
   title = '';
   description = '';
 
-  @Input() card: string | undefined;
+  @Input() card: string = '';
 
   ngOnChanges(): void {
     if (this.card) {
