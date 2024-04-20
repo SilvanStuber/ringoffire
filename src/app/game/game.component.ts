@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
+import { GameService } from '../game.service';
+
 
 @Component({
   selector: 'app-game',
@@ -26,14 +28,19 @@ export class GameComponent implements OnInit {
   currentCard: string = '';
   game: Game = new Game();
 
-  constructor(public dialog: MatDialog) {}
+
+  constructor(public dialog: MatDialog, private gameService: GameService) {
+  }
+
 
   ngOnInit(): void {
     this.newGame();
   }
 
   newGame() {
+   
     this.game = new Game();
+    this.gameService.addGame(this.game);
   }
 
   takeCard() {
