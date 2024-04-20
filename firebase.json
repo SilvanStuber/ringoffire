@@ -3,9 +3,7 @@
     {
       "target": "ringoffire",
       "source": ".",
-      "frameworksBackend": {
-        "region": "europe-west1"
-      }
+      "frameworksBackend": {}
     }
   ]
 }
