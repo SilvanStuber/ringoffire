@@ -12,10 +12,11 @@ import {
   collection,
   docData,
   doc,
-  updateDoc
+  updateDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 @Component({
   selector: 'app-game',
@@ -26,7 +27,7 @@ import { PlayerMobileComponent } from '../player-mobile/player-mobile.component'
     MatButtonModule,
     MatIconModule,
     GameInfoComponent,
-    PlayerMobileComponent
+    PlayerMobileComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
@@ -48,6 +49,7 @@ export class GameComponent implements OnInit {
       this.game.currentPlayer = game.currentPlayer;
       this.game.playedCards = game.playedCards;
       this.game.players = game.players;
+      this.game.player_imgages = game.player_imgages;
       this.game.stack = game.stack;
       this.game.pickCardAnimation = game.pickCardAnimation;
       this.game.currentCard = game.currentCard;
@@ -56,7 +58,6 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
-   
   }
 
   newGame() {
@@ -73,8 +74,8 @@ export class GameComponent implements OnInit {
       this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer =
-      this.game.currentPlayer % this.game.players.length;
-      this.saveGame(); 
+        this.game.currentPlayer % this.game.players.length;
+      this.saveGame();
       setTimeout(() => {
         if (this.game.currentCard !== undefined) {
           this.game.playedCards.push(this.game.currentCard);
@@ -85,11 +86,22 @@ export class GameComponent implements OnInit {
     }
   }
 
+  editPlayer(playerId: number) {
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      if (change) {
+        this.game.player_imgages[playerId] = change;
+        this.saveGame();
+      }
+    });
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.game.player_imgages.push('1.png');
         this.saveGame();
       }
     });

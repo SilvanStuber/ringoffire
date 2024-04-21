@@ -12,6 +12,7 @@ import { NgClass } from '@angular/common';
 export class PlayerComponent {
 
   @Input() name: any;
+  @Input() image = '1.png';
   @Input() playerActive: boolean = false;
 
 }

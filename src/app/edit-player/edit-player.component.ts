@@ -13,9 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-dialog-add-player',
+  selector: 'app-edit-player',
   standalone: true,
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -25,14 +26,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDialogActions,
     MatDialogClose,
   ],
-  templateUrl: './dialog-add-player.component.html',
-  styleUrl: './dialog-add-player.component.scss',
+  templateUrl: './edit-player.component.html',
+  styleUrl: './edit-player.component.scss',
 })
-export class DialogAddPlayerComponent {
-  name: string = '';
-  constructor(public dialogRef: MatDialogRef<DialogAddPlayerComponent>) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+export class EditPlayerComponent {
+  constructor(public dialogRef: MatDialogRef<EditPlayerComponent>) {}
+  allProfilePicture = [
+    '1.png',
+    '2.png',
+    '3.png',
+    '4.png',
+    '5.png',
+    '6.png',
+    '7.jpg',
+    '8.png',
+  ];
 }

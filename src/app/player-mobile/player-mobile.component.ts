@@ -13,5 +13,6 @@ import { NgClass } from '@angular/common';
 export class PlayerMobileComponent {
 
   @Input() name: any;
+  @Input() image: any;
   @Input() playerActive: boolean = false;
 }

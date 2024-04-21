@@ -1,0 +1,9 @@
+<div class="edit-player-container">
+  <h2 mat-dialog-title>Edit player</h2>
+  <img
+    class="profile-picture"
+    [mat-dialog-close]="picture"
+    *ngFor="let picture of allProfilePicture"
+    src="./assets/img/profile/{{ picture }}"
+  />
+</div>
