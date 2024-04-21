@@ -11,8 +11,8 @@ import {
   Firestore,
   collection,
   docData,
-  addDoc,
   doc,
+  updateDoc
 } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 
@@ -45,7 +45,6 @@ export class GameComponent implements OnInit {
     });
     this.items$ = docData(this.getDataGameRef(this.parmsId));
     this.items = this.items$.subscribe((game: any) => {
-      console.log("Update game", game)
       this.game.currentPlayer = game.currentPlayer;
       this.game.playedCards = game.playedCards;
       this.game.players = game.players;
@@ -60,31 +59,24 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    //this.addGame();
-  }
-
-  getGameRef() {
-    return collection(this.firestore, 'games');
   }
 
   getDataGameRef(id: string) {
     return doc(collection(this.firestore, 'games'), id);
   }
 
-  async addGame() {
-    await addDoc(this.getGameRef(), this.game.toJson());
-  }
-
   takeCard() {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game.stack.pop() || '';
       this.pickCardAnimation = true;
+      this.saveGame();
       this.game.currentPlayer++;
       this.game.currentPlayer =
-        this.game.currentPlayer % this.game.players.length;
+      this.game.currentPlayer % this.game.players.length;
       setTimeout(() => {
         if (this.currentCard !== undefined) {
           this.game.playedCards.push(this.currentCard);
+          this.saveGame();
           this.pickCardAnimation = false;
         }
       }, 1500);
@@ -96,7 +88,12 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.saveGame();
       }
     });
+  }
+
+  async saveGame() {
+    await updateDoc(this.getDataGameRef(this.parmsId), this.game.toJson());
   }
 }
