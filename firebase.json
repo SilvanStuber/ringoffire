@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/ringoffireonline",
+    "public": "dist/ringoffireonline/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
