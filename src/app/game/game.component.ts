@@ -30,8 +30,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './game.component.scss',
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
-  currentCard: string = '';
   game: Game = new Game();
   firestore: Firestore = inject(Firestore);
   items$;
@@ -48,7 +46,9 @@ export class GameComponent implements OnInit {
       this.game.currentPlayer = game.currentPlayer;
       this.game.playedCards = game.playedCards;
       this.game.players = game.players;
-      this.game.stack = game.stack;      
+      this.game.stack = game.stack;
+      this.game.pickCardAnimation = game.pickCardAnimation;
+      this.game.currentCard = game.currentCard;
     });
   }
 
@@ -66,18 +66,18 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop() || '';
-      this.pickCardAnimation = true;
-      this.saveGame();
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop() || '';
+      this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
       this.game.currentPlayer =
       this.game.currentPlayer % this.game.players.length;
+      this.saveGame(); 
       setTimeout(() => {
-        if (this.currentCard !== undefined) {
-          this.game.playedCards.push(this.currentCard);
+        if (this.game.currentCard !== undefined) {
+          this.game.playedCards.push(this.game.currentCard);
+          this.game.pickCardAnimation = false;
           this.saveGame();
-          this.pickCardAnimation = false;
         }
       }, 1500);
     }
